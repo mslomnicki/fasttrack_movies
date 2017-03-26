@@ -2,12 +2,10 @@ package net.slomnicki.udacity.popularmovies.movieposters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +18,12 @@ import java.util.List;
 class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolder> {
 
     private List<TmdbMovie> mMovieList;
+
+    public PostersAdapter(OnPosterClickListener clickListener) {
+        mClickListener = clickListener;
+    }
+
+    private final OnPosterClickListener mClickListener;
 
     public void setMovieList(List<TmdbMovie> movieList) {
         mMovieList = movieList;
@@ -63,8 +67,12 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), mMovie.getTitle(), Toast.LENGTH_SHORT).show();
-
+            mClickListener.onPosterClick(mMovie.getId());
         }
     }
+
+    public interface OnPosterClickListener {
+        public void onPosterClick(int movieId);
+    }
 }
+

@@ -15,11 +15,12 @@ import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
 import net.slomnicki.udacity.popularmovies.api.TmdbMoviesResponse;
+import net.slomnicki.udacity.popularmovies.moviedetails.DetailsActivity;
 import net.slomnicki.udacity.popularmovies.utils.NetworkUtils;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PostersAdapter.OnPosterClickListener {
 
     private RecyclerView mPostersRecyclerView;
     private PostersAdapter mPostersAdapter;
@@ -65,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         int spanCount = 2;
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mPostersRecyclerView.setLayoutManager(layoutManager);
-//        mPostersRecyclerView.setHasFixedSize(true);
-        mPostersAdapter = new PostersAdapter();
+        mPostersRecyclerView.setHasFixedSize(true);
+        mPostersAdapter = new PostersAdapter(this);
         mPostersRecyclerView.setAdapter(mPostersAdapter);
     }
 
@@ -78,15 +79,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onPosterClick(int movieId) {
+        DetailsActivity.startActivity(this, movieId);
+    }
+
     private class PostersFetcher extends AsyncTask<Integer, Void, List<TmdbMovie>> {
         @Override
         protected List<TmdbMovie> doInBackground(Integer... params) {
             MovieDatabaseApi api = new MovieDatabaseApi();
             TmdbMoviesResponse response = null;
-            if(params == null || params.length == 0 || params[0] == R.id.action_sort_popular)
+            if (params == null || params.length == 0 || params[0] == R.id.action_sort_popular)
                 response = api.getMoviesByPopularity();
-            else if(params[0] == R.id.action_sort_rating)
-             response = api.getMoviesByRating();
+            else if (params[0] == R.id.action_sort_rating)
+                response = api.getMoviesByRating();
             return response.getResults();
         }
 
