@@ -4,11 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.slomnicki.udacity.popularmovies.MainActivity">
+    tools:context="net.slomnicki.udacity.popularmovies.movieposters.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_posters"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
+        android:id="@+id/tv_error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        />
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="@string/error_message"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
+    <ProgressBar
+        android:id="@+id/pb_center"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
 </FrameLayout>
