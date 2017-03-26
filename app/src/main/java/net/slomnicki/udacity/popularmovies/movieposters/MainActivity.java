@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
+                new PostersFetcher().execute(R.id.action_sort_popular);
                 return true;
             case R.id.action_sort_rating:
+                new PostersFetcher().execute(R.id.action_sort_rating);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         int spanCount = 2;
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mPostersRecyclerView.setLayoutManager(layoutManager);
-        mPostersRecyclerView.setHasFixedSize(true);
+//        mPostersRecyclerView.setHasFixedSize(true);
         mPostersAdapter = new PostersAdapter();
         mPostersRecyclerView.setAdapter(mPostersAdapter);
     }
@@ -76,12 +78,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class PostersFetcher extends AsyncTask<Void, Void, List<TmdbMovie>> {
-
+    private class PostersFetcher extends AsyncTask<Integer, Void, List<TmdbMovie>> {
         @Override
-        protected List<TmdbMovie> doInBackground(Void... params) {
+        protected List<TmdbMovie> doInBackground(Integer... params) {
             MovieDatabaseApi api = new MovieDatabaseApi();
-            TmdbMoviesResponse response = api.getMoviesByPopularity();
+            TmdbMoviesResponse response = null;
+            if(params == null || params.length == 0 || params[0] == R.id.action_sort_popular)
+                response = api.getMoviesByPopularity();
+            else if(params[0] == R.id.action_sort_rating)
+             response = api.getMoviesByRating();
             return response.getResults();
         }
 
