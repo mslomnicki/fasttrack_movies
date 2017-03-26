@@ -12,11 +12,6 @@ import com.squareup.picasso.Picasso;
 
 import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
-import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApiStub;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolder> {
 
@@ -45,13 +40,13 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
         return mMoviesArray.length;
     }
 
-    public class PosterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_poster)
-        protected ImageView mPoster;
+    public class PosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ImageView mPoster;
 
         public PosterViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mPoster = (ImageView) itemView.findViewById(R.id.iv_poster);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(String link) {
@@ -61,7 +56,7 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
                     .into(mPoster);
         }
 
-        @OnClick
+        @Override
         public void onClick(View v) {
             Toast.makeText(v.getContext(), "Yello!", Toast.LENGTH_SHORT).show();
 
