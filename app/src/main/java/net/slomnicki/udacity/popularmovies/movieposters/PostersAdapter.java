@@ -12,15 +12,17 @@ import com.squareup.picasso.Picasso;
 
 import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
+import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
+
+import java.util.List;
 
 class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolder> {
 
-    private final String[] mMoviesArray;
-    private MovieDatabaseApi mMovieDatabaseApi;
+    private List<TmdbMovie> mMovieList;
 
-    public PostersAdapter(MovieDatabaseApi movieDatabaseApi) {
-        mMovieDatabaseApi = movieDatabaseApi;
-        mMoviesArray = mMovieDatabaseApi.getMovies();
+    public void setMovieList(List<TmdbMovie> movieList) {
+        mMovieList = movieList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -32,16 +34,17 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
 
     @Override
     public void onBindViewHolder(PosterViewHolder holder, int position) {
-        holder.bind(mMoviesArray[position]);
+        holder.bind(mMovieList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mMoviesArray.length;
+        return mMovieList == null ? 0 : mMovieList.size();
     }
 
     public class PosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mPoster;
+        private TmdbMovie mMovie;
 
         public PosterViewHolder(View itemView) {
             super(itemView);
@@ -49,16 +52,17 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
             itemView.setOnClickListener(this);
         }
 
-        public void bind(String link) {
+        public void bind(TmdbMovie movie) {
+            mMovie = movie;
             Picasso
                     .with(mPoster.getContext())
-                    .load(link)
+                    .load(MovieDatabaseApi.getPosterPath(movie.getPosterPath()))
                     .into(mPoster);
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(), "Yello!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), mMovie.getTitle(), Toast.LENGTH_SHORT).show();
 
         }
     }
