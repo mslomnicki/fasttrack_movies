@@ -43,17 +43,20 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
         mErrorMessage = (TextView) findViewById(R.id.tv_error_message);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading);
         initializePostersRecyclerView();
-        if (savedInstanceState != null) {
-            Log.d(TAG, "onCreate: Bundle available, restoring");
-            mSortOrder = savedInstanceState.getInt(BUNDLE_SORTING);
-            mMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
-            setRecyclerViewMovieList(mMovies);
-        }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(TAG, "onCreate: Bundle available, restoring");
+        mSortOrder = savedInstanceState.getInt(BUNDLE_SORTING);
+        mMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
+        setRecyclerViewMovieList(mMovies);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (mMovies == null) fetchPosters();
     }
 
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
                 return super.onOptionsItemSelected(item);
 
         }
-        new PostersFetcher().execute(mSortOrder);
+        fetchPosters();
         return true;
     }
 
