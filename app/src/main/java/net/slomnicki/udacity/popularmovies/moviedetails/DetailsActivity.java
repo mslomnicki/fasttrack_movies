@@ -2,8 +2,8 @@ package net.slomnicki.udacity.popularmovies.moviedetails;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +12,6 @@ import com.squareup.picasso.Picasso;
 import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
-
-import org.w3c.dom.Text;
 
 public class DetailsActivity extends AppCompatActivity {
     private static final String INTENT_MOVIE = DetailsActivity.class.getName() + "_MOVIE";
@@ -35,10 +33,18 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        initFields();
+        initializeLayoutFields();
 
         mMovie = getIntent().getParcelableExtra(INTENT_MOVIE);
         if (mMovie != null) fillFieldsWithMovieData();
+    }
+
+    private void initializeLayoutFields() {
+        mTitle = (TextView) findViewById(R.id.tv_title);
+        mPoster = (ImageView) findViewById(R.id.iv_poster);
+        mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
+        mUserRating = (TextView) findViewById(R.id.tv_user_rating);
+        mOverview = (TextView) findViewById(R.id.tv_overview);
     }
 
     private void fillFieldsWithMovieData() {
@@ -50,13 +56,5 @@ public class DetailsActivity extends AppCompatActivity {
         mReleaseDate.setText(mMovie.getReleaseDate().substring(0, 4));
         mUserRating.setText(mMovie.getVoteAverage() + "/10");
         mOverview.setText(mMovie.getOverview());
-    }
-
-    private void initFields() {
-        mTitle = (TextView) findViewById(R.id.tv_title);
-        mPoster = (ImageView) findViewById(R.id.iv_poster);
-        mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
-        mUserRating = (TextView) findViewById(R.id.tv_user_rating);
-        mOverview = (TextView) findViewById(R.id.tv_overview);
     }
 }

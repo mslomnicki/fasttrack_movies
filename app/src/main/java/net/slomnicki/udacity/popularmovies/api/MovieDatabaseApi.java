@@ -45,7 +45,6 @@ public class MovieDatabaseApi {
         return response == null ? null : mGson.fromJson(response, TmdbMoviesResponse.class);
     }
 
-
     private URL getUrl(String path) {
         Uri uri = Uri
                 .parse(API_URL)
@@ -61,6 +60,4 @@ public class MovieDatabaseApi {
         }
         return null;
     }
-
-
 }

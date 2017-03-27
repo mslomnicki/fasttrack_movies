@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
     }
 
     @Override
@@ -54,12 +55,6 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
     }
 
     private void initializePostersRecyclerView() {
@@ -77,11 +72,6 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
         } else {
             showErrorMessage();
         }
-    }
-
-    @Override
-    public void onPosterClick(TmdbMovie movie) {
-        DetailsActivity.startActivity(this, movie);
     }
 
     private class PostersFetcher extends AsyncTask<Integer, Void, List<TmdbMovie>> {
@@ -124,5 +114,10 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
         mPostersRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
         mErrorMessage.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onPosterClick(TmdbMovie movie) {
+        DetailsActivity.startActivity(this, movie);
     }
 }
