@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
     }
 
     @Override
-    public void onPosterClick(int movieId) {
-        DetailsActivity.startActivity(this, movieId);
+    public void onPosterClick(TmdbMovie movie) {
+        DetailsActivity.startActivity(this, movie);
     }
 
     private class PostersFetcher extends AsyncTask<Integer, Void, List<TmdbMovie>> {

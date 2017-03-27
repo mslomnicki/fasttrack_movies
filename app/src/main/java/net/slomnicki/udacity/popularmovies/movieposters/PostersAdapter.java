@@ -67,12 +67,12 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
 
         @Override
         public void onClick(View v) {
-            mClickListener.onPosterClick(mMovie.getId());
+            mClickListener.onPosterClick(mMovie);
         }
     }
 
     public interface OnPosterClickListener {
-        public void onPosterClick(int movieId);
+        public void onPosterClick(TmdbMovie movie);
     }
 }
 
