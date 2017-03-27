@@ -10,8 +10,6 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class NetworkUtils {
-    public static final String TAG = NetworkUtils.class.getSimpleName();
-
     public static boolean isOnline(Context context) {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

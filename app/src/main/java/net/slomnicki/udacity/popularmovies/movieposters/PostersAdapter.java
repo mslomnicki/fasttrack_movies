@@ -47,7 +47,7 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
     }
 
     public class PosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView mPoster;
+        private final ImageView mPoster;
         private TmdbMovie mMovie;
 
         public PosterViewHolder(View itemView) {

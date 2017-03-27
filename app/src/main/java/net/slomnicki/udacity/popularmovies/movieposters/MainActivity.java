@@ -21,7 +21,6 @@ import net.slomnicki.udacity.popularmovies.moviedetails.DetailsActivity;
 import net.slomnicki.udacity.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PostersAdapter.OnPosterClickListener {

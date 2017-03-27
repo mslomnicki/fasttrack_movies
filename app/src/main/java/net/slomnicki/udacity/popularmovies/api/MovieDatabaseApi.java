@@ -13,7 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MovieDatabaseApi {
-    public static final String TAG = MovieDatabaseApi.class.getSimpleName();
+    private static final String TAG = MovieDatabaseApi.class.getSimpleName();
     private static final String API_URL = "https://api.themoviedb.org/3";
     private static final String PATH_SORT_POPULAR = "movie/popular";
     private static final String PATH_SORT_TOP_RATED = "movie/top_rated";
