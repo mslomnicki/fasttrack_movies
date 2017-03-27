@@ -3,4 +3,5 @@
     <string name="error_message">Error occurred</string>
     <string name="sort_by_popularity">Sort by popularity</string>
     <string name="sort_by_rating">Sort by rating</string>
+    <string name="description_poster">Image poster</string>
 </resources>
