@@ -18,7 +18,6 @@ public class MovieDatabaseApi {
     private static final String PATH_SORT_POPULAR = "movie/popular";
     private static final String PATH_SORT_TOP_RATED = "movie/top_rated";
     private static final String PARAM_API_KEY = "api_key";
-    private static final String API_KEY = "8cf13ffd991cf81089bcd689b7ba5de4";
     private static final String PATH_IMAGES = "https://image.tmdb.org/t/p/w185";
     private final Gson mGson = new Gson();
 
@@ -50,7 +49,7 @@ public class MovieDatabaseApi {
                 .parse(API_URL)
                 .buildUpon()
                 .appendEncodedPath(path)
-                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .appendQueryParameter(PARAM_API_KEY, ApiKeys.API_KEY)
                 .build();
         Log.d(TAG, "getUrl: " + uri.toString());
         try {

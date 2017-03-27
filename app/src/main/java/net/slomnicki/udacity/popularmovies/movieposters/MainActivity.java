@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
                 response = api.getMoviesByPopularity();
             else if (params[0] == R.id.action_sort_rating)
                 response = api.getMoviesByRating();
-            return response.getResults();
+            return response == null ? null : response.getResults();
         }
 
         @Override
@@ -134,7 +134,11 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
         @Override
         protected void onPostExecute(List<TmdbMovie> movies) {
             setRecyclerViewMovieList(movies);
-            showRecyclerView();
+            if (movies == null) {
+                showErrorMessage();
+            } else {
+                showRecyclerView();
+            }
         }
     }
 
