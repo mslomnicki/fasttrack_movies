@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import net.slomnicki.udacity.popularmovies.BuildConfig;
 import net.slomnicki.udacity.popularmovies.utils.NetworkUtils;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class MovieDatabaseApi {
                 .parse(API_URL)
                 .buildUpon()
                 .appendEncodedPath(path)
-                .appendQueryParameter(PARAM_API_KEY, ApiKeys.API_KEY)
+                .appendQueryParameter(PARAM_API_KEY, BuildConfig.TMDB_API_TOKEN)
                 .build();
         Log.d(TAG, "getUrl: " + uri.toString());
         try {
