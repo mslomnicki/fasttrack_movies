@@ -120,7 +120,7 @@ public class TmdbMovie implements Parcelable {
         parcel.writeString(releaseDate);
     }
 
-    static final Parcelable.Creator<TmdbMovie> CREATOR = new Creator<TmdbMovie>() {
+    public static final Parcelable.Creator<TmdbMovie> CREATOR = new Creator<TmdbMovie>() {
         @Override
         public TmdbMovie createFromParcel(Parcel parcel) {
             TmdbMovie retval = new TmdbMovie();
