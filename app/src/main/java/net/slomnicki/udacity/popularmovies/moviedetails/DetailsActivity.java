@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -35,8 +36,16 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         initializeLayoutFields();
 
-        mMovie = getIntent().getParcelableExtra(INTENT_MOVIE);
-        if (mMovie != null) fillFieldsWithMovieData();
+        Bundle extrasBundle = getIntent().getExtras();
+        if (extrasBundle == null ||
+                extrasBundle.isEmpty() ||
+                !extrasBundle.containsKey(INTENT_MOVIE)) {
+            finish();
+            Toast.makeText(this, getString(R.string.error_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mMovie = extrasBundle.getParcelable(INTENT_MOVIE);
+        fillFieldsWithMovieData();
     }
 
     private void initializeLayoutFields() {
