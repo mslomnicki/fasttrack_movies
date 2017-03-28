@@ -1,5 +1,6 @@
 package net.slomnicki.udacity.popularmovies.movieposters;
 
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -93,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
     }
 
     private void initializePostersRecyclerView() {
-        int spanCount = 2;
+        int orientation = getResources().getConfiguration().orientation;
+        int spanCount = orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 4;
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mPostersRecyclerView.setLayoutManager(layoutManager);
         mPostersRecyclerView.setHasFixedSize(true);
