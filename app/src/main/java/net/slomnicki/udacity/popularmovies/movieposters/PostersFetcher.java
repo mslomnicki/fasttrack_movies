@@ -13,7 +13,7 @@ public class PostersFetcher extends AsyncTask<Integer, Void, List<TmdbMovie>> {
     public static final int SORT_POPULAR = 1;
     public static final int SORT_RATING = 2;
 
-    private AsyncTaskCompleteListener<List<TmdbMovie>> mListener;
+    private final AsyncTaskCompleteListener<List<TmdbMovie>> mListener;
 
     public PostersFetcher(AsyncTaskCompleteListener<List<TmdbMovie>> listener) {
         mListener = listener;
