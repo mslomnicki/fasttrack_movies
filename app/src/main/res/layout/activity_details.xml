@@ -21,7 +21,8 @@
             android:paddingRight="24dp"
             android:paddingTop="48dp"
             android:textColor="@android:color/white"
-            android:textSize="40sp"/>
+            android:textSize="40sp"
+            tools:text="Film title"/>
 
         <ImageView
             android:id="@+id/iv_poster"
@@ -38,6 +39,9 @@
             android:paddingStart="24dp"
             android:paddingTop="8dp"
             android:contentDescription="@string/description_poster"
+            tools:layout_width="300dp"
+            tools:layout_height="200dp"
+            tools:background="@color/colorPrimary"
             />
 
         <TextView
@@ -48,7 +52,9 @@
             android:layout_toEndOf="@id/iv_poster"
             android:layout_toRightOf="@id/iv_poster"
             android:paddingTop="16dp"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            tools:text="2017"/>
+
 
         <TextView
             android:id="@+id/tv_user_rating"
@@ -56,13 +62,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_release_date"
             android:layout_toEndOf="@id/iv_poster"
-            android:layout_toRightOf="@id/iv_poster"/>
+            android:layout_toRightOf="@id/iv_poster"
+            tools:text="5/10"/>
 
         <TextView
             android:id="@+id/tv_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_poster"
-            android:padding="16dp"/>
+            android:padding="16dp"
+            tools:text="Lorem ipsum"/>
     </android.support.percent.PercentRelativeLayout>
 </ScrollView>
