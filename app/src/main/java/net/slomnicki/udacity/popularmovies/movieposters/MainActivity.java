@@ -1,7 +1,6 @@
 package net.slomnicki.udacity.popularmovies.movieposters;
 
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,16 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.slomnicki.udacity.popularmovies.R;
-import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
-import net.slomnicki.udacity.popularmovies.api.TmdbMoviesResponse;
 import net.slomnicki.udacity.popularmovies.moviedetails.DetailsActivity;
+import net.slomnicki.udacity.popularmovies.utils.AsyncTaskCompleteListener;
 import net.slomnicki.udacity.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PostersAdapter.OnPosterClickListener {
+public class MainActivity extends AppCompatActivity
+        implements PostersAdapter.OnPosterClickListener, AsyncTaskCompleteListener<List<TmdbMovie>> {
 
     private static final String BUNDLE_SORTING = MainActivity.class.getName() + "_SORTING";
     private static final String BUNDLE_MOVIES = MainActivity.class.getName() + "_MOVIES";
@@ -105,7 +104,10 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
 
     private void fetchPosters() {
         if (NetworkUtils.isOnline(this)) {
-            new PostersFetcher().execute(mSortOrder);
+            showProgressBar();
+            new PostersFetcher(this).execute(
+                    mSortOrder == R.id.action_sort_popular ?
+                            PostersFetcher.SORT_POPULAR : PostersFetcher.SORT_RATING);
         } else {
             showErrorMessage();
         }
@@ -114,34 +116,6 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
     private void setRecyclerViewMovieList(List<TmdbMovie> movies) {
         mMovies = movies;
         mPostersAdapter.setMovieList(mMovies);
-    }
-
-    private class PostersFetcher extends AsyncTask<Integer, Void, List<TmdbMovie>> {
-        @Override
-        protected List<TmdbMovie> doInBackground(Integer... params) {
-            MovieDatabaseApi api = new MovieDatabaseApi();
-            TmdbMoviesResponse response = null;
-            if (params == null || params.length == 0 || params[0] == R.id.action_sort_popular)
-                response = api.getMoviesByPopularity();
-            else if (params[0] == R.id.action_sort_rating)
-                response = api.getMoviesByRating();
-            return response == null ? null : response.getResults();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            showProgressBar();
-        }
-
-        @Override
-        protected void onPostExecute(List<TmdbMovie> movies) {
-            setRecyclerViewMovieList(movies);
-            if (movies == null) {
-                showErrorMessage();
-            } else {
-                showRecyclerView();
-            }
-        }
     }
 
     private void showErrorMessage() {
@@ -165,5 +139,15 @@ public class MainActivity extends AppCompatActivity implements PostersAdapter.On
     @Override
     public void onPosterClick(TmdbMovie movie) {
         DetailsActivity.startActivity(this, movie);
+    }
+
+    @Override
+    public void onTaskComplete(List<TmdbMovie> movies) {
+        setRecyclerViewMovieList(movies);
+        if (movies == null) {
+            showErrorMessage();
+        } else {
+            showRecyclerView();
+        }
     }
 }
