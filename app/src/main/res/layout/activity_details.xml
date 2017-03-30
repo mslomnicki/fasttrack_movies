@@ -15,13 +15,13 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#009688"
-            android:paddingBottom="48dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:paddingTop="48dp"
+            android:background="@color/colorDarkCyan"
+            android:paddingBottom="@dimen/titlePaddingVertical"
+            android:paddingLeft="@dimen/titlePaddingHorizontal"
+            android:paddingRight="@dimen/titlePaddingHorizontal"
+            android:paddingTop="@dimen/titlePaddingVertical"
             android:textColor="@android:color/white"
-            android:textSize="40sp"
+            android:textSize="@dimen/textSizeBig"
             tools:text="Film title"/>
 
         <ImageView
@@ -32,12 +32,12 @@
             android:layout_below="@id/tv_title"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:paddingBottom="16dp"
-            android:paddingEnd="16dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="16dp"
-            android:paddingStart="24dp"
-            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/detailsPosterPaddingBottom"
+            android:paddingEnd="@dimen/detailsPosterPaddingRight"
+            android:paddingLeft="@dimen/detailsPosterPaddingLeft"
+            android:paddingRight="@dimen/detailsPosterPaddingRight"
+            android:paddingStart="@dimen/detailsPosterPaddingLeft"
+            android:paddingTop="@dimen/detailsPosterPaddingTop"
             android:contentDescription="@string/description_poster"
             tools:layout_width="300dp"
             tools:layout_height="200dp"
@@ -51,8 +51,8 @@
             android:layout_below="@id/tv_title"
             android:layout_toEndOf="@id/iv_poster"
             android:layout_toRightOf="@id/iv_poster"
-            android:paddingTop="16dp"
-            android:textSize="24sp"
+            android:paddingTop="@dimen/detailsTextPaddingTop"
+            android:textSize="@dimen/textSizeMedium"
             tools:text="2017"/>
 
 
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_poster"
-            android:padding="16dp"
+            android:padding="@dimen/detailsTextPaddingTop"
             tools:text="Lorem ipsum"/>
     </android.support.percent.PercentRelativeLayout>
 </ScrollView>

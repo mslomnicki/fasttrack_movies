@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSizeBig">40sp</dimen>
+    <dimen name="titlePaddingVertical">48dp</dimen>
+    <dimen name="titlePaddingHorizontal">24dp</dimen>
+    <dimen name="detailsPosterPaddingLeft">24dp</dimen>
+    <dimen name="detailsPosterPaddingRight">16dp</dimen>
+    <dimen name="detailsPosterPaddingBottom">16dp</dimen>
+    <dimen name="detailsPosterPaddingTop">8dp</dimen>
+    <dimen name="textSizeMedium">24sp</dimen>
+    <dimen name="detailsTextPaddingTop">16dp</dimen>
+</resources>
