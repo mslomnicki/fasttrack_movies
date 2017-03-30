@@ -57,7 +57,8 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void fillFieldsWithMovieData() {
-        mTitle.setText((mMovie.getTitle()));
+        getSupportActionBar().setTitle(mMovie.getTitle());
+        mTitle.setText(mMovie.getTitle());
         Picasso
                 .with(this)
                 .load(MovieDatabaseApi.getPosterPath(mMovie.getPosterPath()))
