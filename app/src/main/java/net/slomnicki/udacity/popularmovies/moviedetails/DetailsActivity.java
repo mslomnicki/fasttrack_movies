@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,7 +58,10 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void fillFieldsWithMovieData() {
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setTitle(mMovie.getTitle());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTitle.setText(mMovie.getTitle());
         Picasso
                 .with(this)

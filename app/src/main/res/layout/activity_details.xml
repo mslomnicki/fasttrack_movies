@@ -1,76 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="net.slomnicki.udacity.popularmovies.moviedetails.DetailsActivity">
 
-    <android.support.percent.PercentRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <TextView
-            android:id="@+id/tv_title"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorDarkCyan"
-            android:paddingBottom="@dimen/titlePaddingVertical"
-            android:paddingLeft="@dimen/titlePaddingHorizontal"
-            android:paddingRight="@dimen/titlePaddingHorizontal"
-            android:paddingTop="@dimen/titlePaddingVertical"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/textSizeBig"
-            tools:text="Film title"/>
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </android.support.design.widget.AppBarLayout>
 
-        <ImageView
-            android:id="@+id/iv_poster"
-            app:layout_widthPercent="40%"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_below="@id/tv_title"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:paddingBottom="@dimen/detailsPosterPaddingBottom"
-            android:paddingEnd="@dimen/detailsPosterPaddingRight"
-            android:paddingLeft="@dimen/detailsPosterPaddingLeft"
-            android:paddingRight="@dimen/detailsPosterPaddingRight"
-            android:paddingStart="@dimen/detailsPosterPaddingLeft"
-            android:paddingTop="@dimen/detailsPosterPaddingTop"
-            android:contentDescription="@string/description_poster"
-            tools:layout_width="300dp"
-            tools:layout_height="200dp"
-            tools:background="@color/colorPrimary"
-            />
 
-        <TextView
-            android:id="@+id/tv_release_date"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.percent.PercentRelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"
-            android:layout_toEndOf="@id/iv_poster"
-            android:layout_toRightOf="@id/iv_poster"
-            android:paddingTop="@dimen/detailsTextPaddingTop"
-            android:textSize="@dimen/textSizeMedium"
-            tools:text="2017"/>
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorDarkCyan"
+                android:paddingBottom="@dimen/titlePaddingVertical"
+                android:paddingLeft="@dimen/titlePaddingHorizontal"
+                android:paddingRight="@dimen/titlePaddingHorizontal"
+                android:paddingTop="@dimen/titlePaddingVertical"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSizeBig"
+                tools:text="Film title"/>
 
-        <TextView
-            android:id="@+id/tv_user_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_release_date"
-            android:layout_toEndOf="@id/iv_poster"
-            android:layout_toRightOf="@id/iv_poster"
-            tools:text="5/10"/>
+            <ImageView
+                android:id="@+id/iv_poster"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/tv_title"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/description_poster"
+                android:paddingBottom="@dimen/detailsPosterPaddingBottom"
+                android:paddingEnd="@dimen/detailsPosterPaddingRight"
+                android:paddingLeft="@dimen/detailsPosterPaddingLeft"
+                android:paddingRight="@dimen/detailsPosterPaddingRight"
+                android:paddingStart="@dimen/detailsPosterPaddingLeft"
+                android:paddingTop="@dimen/detailsPosterPaddingTop"
+                app:layout_widthPercent="40%"
+                tools:background="@color/colorPrimary"
+                tools:layout_height="200dp"
+                tools:layout_width="300dp"/>
 
-        <TextView
-            android:id="@+id/tv_overview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_poster"
-            android:padding="@dimen/detailsTextPaddingTop"
-            tools:text="Lorem ipsum"/>
-    </android.support.percent.PercentRelativeLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_toEndOf="@id/iv_poster"
+                android:layout_toRightOf="@id/iv_poster"
+                android:paddingTop="@dimen/detailsTextPaddingTop"
+                android:textSize="@dimen/textSizeMedium"
+                tools:text="2017"/>
+
+            <TextView
+                android:id="@+id/tv_user_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_release_date"
+                android:layout_toEndOf="@id/iv_poster"
+                android:layout_toRightOf="@id/iv_poster"
+                tools:text="5/10"/>
+
+            <TextView
+                android:id="@+id/tv_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_poster"
+                android:padding="@dimen/detailsTextPaddingTop"
+                tools:text="Lorem ipsum"/>
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
