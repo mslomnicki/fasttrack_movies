@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="textSizeBig">40sp</dimen>
-    <dimen name="titlePaddingVertical">48dp</dimen>
-    <dimen name="titlePaddingHorizontal">24dp</dimen>
-    <dimen name="detailsPosterPaddingLeft">24dp</dimen>
-    <dimen name="detailsPosterPaddingRight">16dp</dimen>
-    <dimen name="detailsPosterPaddingBottom">16dp</dimen>
-    <dimen name="detailsPosterPaddingTop">8dp</dimen>
-    <dimen name="textSizeMedium">24sp</dimen>
-    <dimen name="detailsTextPaddingTop">16dp</dimen>
+    <dimen name="title_padding_vertical">48dp</dimen>
+    <dimen name="title_padding_horizontal">24dp</dimen>
+    <dimen name="details_poster_padding_left">24dp</dimen>
+    <dimen name="details_poster_padding_right">16dp</dimen>
+    <dimen name="details_poster_padding_bottom">16dp</dimen>
+    <dimen name="details_poster_padding_top">8dp</dimen>
+    <dimen name="details_text_padding_top">16dp</dimen>
+    <dimen name="horizontal_bar_thick">2dp</dimen>
+    <dimen name="horizontal_bar_thin">1dp</dimen>
 </resources>

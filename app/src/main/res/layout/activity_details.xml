@@ -38,12 +38,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorDarkCyan"
-                android:paddingBottom="@dimen/titlePaddingVertical"
-                android:paddingLeft="@dimen/titlePaddingHorizontal"
-                android:paddingRight="@dimen/titlePaddingHorizontal"
-                android:paddingTop="@dimen/titlePaddingVertical"
+                android:paddingBottom="@dimen/title_padding_vertical"
+                android:paddingLeft="@dimen/title_padding_horizontal"
+                android:paddingRight="@dimen/title_padding_horizontal"
+                android:paddingTop="@dimen/title_padding_vertical"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/textSizeBig"
+                style="@style/TextAppearance.AppCompat.Display2"
                 tools:text="Film title"/>
 
             <ImageView
@@ -54,12 +54,12 @@
                 android:layout_below="@id/tv_title"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/description_poster"
-                android:paddingBottom="@dimen/detailsPosterPaddingBottom"
-                android:paddingEnd="@dimen/detailsPosterPaddingRight"
-                android:paddingLeft="@dimen/detailsPosterPaddingLeft"
-                android:paddingRight="@dimen/detailsPosterPaddingRight"
-                android:paddingStart="@dimen/detailsPosterPaddingLeft"
-                android:paddingTop="@dimen/detailsPosterPaddingTop"
+                android:paddingBottom="@dimen/details_poster_padding_bottom"
+                android:paddingEnd="@dimen/details_poster_padding_right"
+                android:paddingLeft="@dimen/details_poster_padding_left"
+                android:paddingRight="@dimen/details_poster_padding_right"
+                android:paddingStart="@dimen/details_poster_padding_left"
+                android:paddingTop="@dimen/details_poster_padding_top"
                 app:layout_widthPercent="40%"
                 tools:background="@color/colorPrimary"
                 tools:layout_height="200dp"
@@ -72,8 +72,8 @@
                 android:layout_below="@id/tv_title"
                 android:layout_toEndOf="@id/iv_poster"
                 android:layout_toRightOf="@id/iv_poster"
-                android:paddingTop="@dimen/detailsTextPaddingTop"
-                android:textSize="@dimen/textSizeMedium"
+                android:paddingTop="@dimen/details_text_padding_top"
+                style="@style/TextAppearance.AppCompat.Display1"
                 tools:text="2017"/>
 
             <TextView
@@ -83,6 +83,7 @@
                 android:layout_below="@id/tv_release_date"
                 android:layout_toEndOf="@id/iv_poster"
                 android:layout_toRightOf="@id/iv_poster"
+                style="@style/TextAppearance.AppCompat.Medium"
                 tools:text="5/10"/>
 
             <TextView
@@ -90,46 +91,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_poster"
-                android:padding="@dimen/detailsTextPaddingTop"
+                android:padding="@dimen/details_text_padding_top"
                 tools:text="Lorem ipsum"/>
 
             <View
-                android:id="@+id/v_bar1"
+                android:id="@+id/divider1"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:layout_below="@+id/tv_overview"
-                />
+                android:layout_height="@dimen/horizontal_bar_thick"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorDarkCyan"
+                android:layout_below="@+id/tv_overview"/>
+
             <TextView
                 android:id="@+id/tv_trailers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/divider1"
+                android:paddingTop="8dp"
+                android:paddingLeft="16dp"
                 android:text="@string/trailers"
-                android:layout_below="@id/v_bar1"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_trailers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:layout_below="@id/tv_trailers"/>
             <View
-                android:id="@+id/v_bar2"
+                android:id="@+id/divider2"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/horizontal_bar_thick"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorDarkCyan"
                 android:layout_below="@+id/rv_trailers"
                 />
+
             <TextView
                 android:id="@+id/tv_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/v_bar2"
+                android:layout_below="@id/divider2"
+                android:paddingTop="8dp"
+                android:paddingLeft="16dp"
                 android:text="@string/reviews"
-                />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/v_bar2"/>
+                android:padding="16dp"
+                android:layout_below="@id/tv_reviews"/>
         </android.support.percent.PercentRelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

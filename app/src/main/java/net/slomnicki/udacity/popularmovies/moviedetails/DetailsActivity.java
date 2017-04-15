@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,11 +27,16 @@ public class DetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    private TextView mTitle;
-    private ImageView mPoster;
-    private TextView mReleaseDate;
-    private TextView mUserRating;
-    private TextView mOverview;
+    private TextView mTitleTextView;
+    private ImageView mPosterImageView;
+    private TextView mReleaseDateTextView;
+    private TextView mUserRatingTextView;
+    private TextView mOverviewTextView;
+    private RecyclerView mTrailersRecyclerView;
+    private RecyclerView mReviewsRecyclerView;
+    private TrailersAdapter mTrailersAdapter;
+    private ReviewsAdapter mReviewsAdapter;
+
     private TmdbMovie mMovie;
 
     @Override
@@ -36,6 +44,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         initializeLayoutFields();
+        initializeRecyclerViews();
 
         Bundle extrasBundle = getIntent().getExtras();
         if (extrasBundle == null ||
@@ -50,11 +59,29 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void initializeLayoutFields() {
-        mTitle = (TextView) findViewById(R.id.tv_title);
-        mPoster = (ImageView) findViewById(R.id.iv_poster);
-        mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
-        mUserRating = (TextView) findViewById(R.id.tv_user_rating);
-        mOverview = (TextView) findViewById(R.id.tv_overview);
+        mTitleTextView = (TextView) findViewById(R.id.tv_title);
+        mPosterImageView = (ImageView) findViewById(R.id.iv_poster);
+        mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
+        mUserRatingTextView = (TextView) findViewById(R.id.tv_user_rating);
+        mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
+    }
+
+    private void initializeRecyclerViews() {
+        mTrailersAdapter = new TrailersAdapter();
+        mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
+        mTrailersRecyclerView.setHasFixedSize(true);
+        mTrailersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mTrailersRecyclerView.setAdapter(mTrailersAdapter);
+        DividerItemDecoration trailersDivier = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mTrailersRecyclerView.addItemDecoration(trailersDivier);
+
+        mReviewsAdapter = new ReviewsAdapter();
+        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_reviews);
+        mReviewsRecyclerView.setHasFixedSize(true);
+        mReviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mReviewsRecyclerView.setAdapter(mReviewsAdapter);
+        DividerItemDecoration reviewsDivider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mReviewsRecyclerView.addItemDecoration(reviewsDivider);
     }
 
     private void fillFieldsWithMovieData() {
@@ -62,13 +89,13 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mMovie.getTitle());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mTitle.setText(mMovie.getTitle());
+        mTitleTextView.setText(mMovie.getTitle());
         Picasso
                 .with(this)
                 .load(MovieDatabaseApi.getPosterPath(mMovie.getPosterPath()))
-                .into(mPoster);
-        mReleaseDate.setText(mMovie.getReleaseDate().substring(0, 4));
-        mUserRating.setText(mMovie.getVoteAverage() + "/10");
-        mOverview.setText(mMovie.getOverview());
+                .into(mPosterImageView);
+        mReleaseDateTextView.setText(mMovie.getReleaseDate().substring(0, 4));
+        mUserRatingTextView.setText(mMovie.getVoteAverage() + "/10");
+        mOverviewTextView.setText(mMovie.getOverview());
     }
 }
