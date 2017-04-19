@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Popular Movies, Stage 1</string>
+    <string name="app_name">Popular Movies</string>
     <string name="error_message">Error occurred\nPlease try again later.</string>
     <string name="sort_by_popularity">Sort by popularity</string>
     <string name="sort_by_rating">Sort by rating</string>

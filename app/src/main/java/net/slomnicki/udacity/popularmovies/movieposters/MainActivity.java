@@ -3,6 +3,8 @@ package net.slomnicki.udacity.popularmovies.movieposters;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,28 +12,28 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
 import net.slomnicki.udacity.popularmovies.moviedetails.DetailsActivity;
-import net.slomnicki.udacity.popularmovies.utils.AsyncTaskCompleteListener;
 import net.slomnicki.udacity.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements PostersAdapter.OnPosterClickListener, AsyncTaskCompleteListener<List<TmdbMovie>> {
+        implements PostersAdapter.OnPosterClickListener, LoaderManager.LoaderCallbacks<List<TmdbMovie>> {
 
     private static final String BUNDLE_SORTING = MainActivity.class.getName() + "_SORTING";
     private static final String BUNDLE_MOVIES = MainActivity.class.getName() + "_MOVIES";
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int MOVIES_LOADER_ID = 7762;
+
     private RecyclerView mPostersRecyclerView;
     private PostersAdapter mPostersAdapter;
+
     private TextView mErrorMessage;
-    private ProgressBar mProgressBar;
     private int mSortOrder = R.id.action_sort_popular;
     private List<TmdbMovie> mMovies;
 
@@ -41,8 +43,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         mPostersRecyclerView = (RecyclerView) findViewById(R.id.rv_posters);
         mErrorMessage = (TextView) findViewById(R.id.tv_error_message);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading);
         initializePostersRecyclerView();
+    }
+
+    private void initializePostersRecyclerView() {
+        int orientation = getResources().getConfiguration().orientation;
+        int spanCount = orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 4;
+        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
+        mPostersRecyclerView.setLayoutManager(layoutManager);
+        mPostersRecyclerView.setHasFixedSize(true);
+        mPostersAdapter = new PostersAdapter(this);
+        mPostersRecyclerView.setAdapter(mPostersAdapter);
     }
 
     @Override
@@ -92,22 +103,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void initializePostersRecyclerView() {
-        int orientation = getResources().getConfiguration().orientation;
-        int spanCount = orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 4;
-        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
-        mPostersRecyclerView.setLayoutManager(layoutManager);
-        mPostersRecyclerView.setHasFixedSize(true);
-        mPostersAdapter = new PostersAdapter(this);
-        mPostersRecyclerView.setAdapter(mPostersAdapter);
-    }
-
     private void fetchPosters() {
         if (NetworkUtils.isOnline(this)) {
-            showProgressBar();
-            new PostersFetcher(this).execute(
-                    mSortOrder == R.id.action_sort_popular ?
-                            PostersFetcher.SORT_POPULAR : PostersFetcher.SORT_RATING);
+            getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
         } else {
             showErrorMessage();
         }
@@ -120,19 +118,11 @@ public class MainActivity extends AppCompatActivity
 
     private void showErrorMessage() {
         mPostersRecyclerView.setVisibility(View.INVISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessage.setVisibility(View.VISIBLE);
     }
 
     private void showRecyclerView() {
         mPostersRecyclerView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mErrorMessage.setVisibility(View.INVISIBLE);
-    }
-
-    private void showProgressBar() {
-        mPostersRecyclerView.setVisibility(View.INVISIBLE);
-        mProgressBar.setVisibility(View.VISIBLE);
         mErrorMessage.setVisibility(View.INVISIBLE);
     }
 
@@ -142,12 +132,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onTaskComplete(List<TmdbMovie> movies) {
+    public Loader<List<TmdbMovie>> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader: ");
+        int sortOrder = mSortOrder == R.id.action_sort_popular ?
+                PostersLoader.SORT_POPULAR : PostersLoader.SORT_RATING;
+        return new PostersLoader(this, sortOrder);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<TmdbMovie>> loader, List<TmdbMovie> movies) {
+        Log.d(TAG, "onLoadFinished: ");
         setRecyclerViewMovieList(movies);
-        if (movies == null) {
-            showErrorMessage();
-        } else {
-            showRecyclerView();
-        }
+        showRecyclerView();
+    }
+
+    @Override
+
+    public void onLoaderReset(Loader<List<TmdbMovie>> loader) {
+        Log.d(TAG, "onLoaderReset: ");
     }
 }

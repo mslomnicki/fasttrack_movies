@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context="net.slomnicki.udacity.popularmovies.movieposters.MainActivity">
 
     <android.support.v7.widget.RecyclerView
@@ -22,12 +23,6 @@
         android:textSize="26sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:visibility="invisible"/>
-
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_gravity="center"
+        android:textColor="@android:color/white"
         android:visibility="invisible"/>
 </FrameLayout>
