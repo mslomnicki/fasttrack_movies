@@ -1,7 +1,6 @@
 package net.slomnicki.udacity.popularmovies.movieposters;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
@@ -26,8 +25,10 @@ public class PostersLoader extends AsyncTaskLoader<List<TmdbMovie>> {
 
     @Override
     protected void onStartLoading() {
-        if(mResults==null) forceLoad();
-        deliverResult(mResults);
+        if (mResults == null)
+            forceLoad();
+        else
+            deliverResult(mResults);
     }
 
     @Override

@@ -35,6 +35,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
+                style="@style/TextAppearance.AppCompat.Display2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorDarkCyan"
@@ -43,7 +44,6 @@
                 android:paddingRight="@dimen/title_padding_horizontal"
                 android:paddingTop="@dimen/title_padding_vertical"
                 android:textColor="@android:color/white"
-                style="@style/TextAppearance.AppCompat.Display2"
                 tools:text="Film title"/>
 
             <ImageView
@@ -67,23 +67,23 @@
 
             <TextView
                 android:id="@+id/tv_release_date"
+                style="@style/TextAppearance.AppCompat.Display1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
                 android:layout_toEndOf="@id/iv_poster"
                 android:layout_toRightOf="@id/iv_poster"
                 android:paddingTop="@dimen/details_text_padding_top"
-                style="@style/TextAppearance.AppCompat.Display1"
                 tools:text="2017"/>
 
             <TextView
                 android:id="@+id/tv_user_rating"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_release_date"
                 android:layout_toEndOf="@id/iv_poster"
                 android:layout_toRightOf="@id/iv_poster"
-                style="@style/TextAppearance.AppCompat.Medium"
                 tools:text="5/10"/>
 
             <TextView
@@ -95,56 +95,56 @@
                 tools:text="Lorem ipsum"/>
 
             <View
-                android:id="@+id/divider1"
+                android:id="@+id/divider_trailers"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/horizontal_bar_thick"
-                android:layout_marginTop="8dp"
+                android:layout_below="@+id/tv_overview"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@color/colorDarkCyan"
-                android:layout_below="@+id/tv_overview"/>
+                android:layout_marginTop="8dp"
+                android:background="@color/colorDarkCyan"/>
 
             <TextView
                 android:id="@+id/tv_trailers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider1"
-                android:paddingTop="8dp"
+                android:layout_below="@id/divider_trailers"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:text="@string/trailers"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_trailers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tv_trailers"
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:layout_below="@id/tv_trailers"/>
+                android:paddingRight="16dp"/>
             <View
-                android:id="@+id/divider2"
+                android:id="@+id/divider_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/horizontal_bar_thick"
+                android:layout_below="@+id/rv_trailers"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="@color/colorDarkCyan"
-                android:layout_below="@+id/rv_trailers"
                 />
 
             <TextView
                 android:id="@+id/tv_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider2"
-                android:paddingTop="8dp"
+                android:layout_below="@id/divider_reviews"
                 android:paddingLeft="16dp"
+                android:paddingTop="8dp"
                 android:text="@string/reviews"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_below="@id/tv_reviews"/>
+                android:layout_below="@id/tv_reviews"
+                android:padding="16dp"/>
         </android.support.percent.PercentRelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

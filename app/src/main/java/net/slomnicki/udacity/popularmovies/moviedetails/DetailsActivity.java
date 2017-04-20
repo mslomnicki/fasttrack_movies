@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
+import net.slomnicki.udacity.popularmovies.api.TmdbMovieReview;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovieTrailer;
 
 import java.util.List;
@@ -40,6 +42,8 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
     private TrailersAdapter mTrailersAdapter;
     private ReviewsAdapter mReviewsAdapter;
     private TmdbMovie mMovie;
+    private TextView mReviewsTextView;
+    private TextView mTrailersTextView;
 
     public static void startActivity(Context context, TmdbMovie movie) {
         Intent intent = new Intent(context, DetailsActivity.class);
@@ -74,21 +78,57 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
         supportLoaderManager.initLoader(TRAILERS_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<TmdbMovieTrailer>>() {
             @Override
             public Loader<List<TmdbMovieTrailer>> onCreateLoader(int id, Bundle args) {
-                Log.d(TAG, "onCreateLoader: trailers");
                 return new TrailersLoader(DetailsActivity.this, mMovie.getId());
             }
 
             @Override
             public void onLoadFinished(Loader<List<TmdbMovieTrailer>> loader, List<TmdbMovieTrailer> data) {
                 Log.d(TAG, "onLoadFinished: trailers " + data.size());
-                mTrailersAdapter.swapData(data);
+                swapTrailersData(data);
             }
 
             @Override
             public void onLoaderReset(Loader<List<TmdbMovieTrailer>> loader) {
-                mTrailersAdapter.swapData(null);
+                swapTrailersData(null);
             }
         });
+        supportLoaderManager.initLoader(REVIEWS_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<TmdbMovieReview>>() {
+            @Override
+            public Loader<List<TmdbMovieReview>> onCreateLoader(int id, Bundle args) {
+                return new ReviewsLoader(DetailsActivity.this, mMovie.getId());
+            }
+
+            @Override
+            public void onLoadFinished(Loader<List<TmdbMovieReview>> loader, List<TmdbMovieReview> data) {
+                swapReviewsData(data);
+
+            }
+
+            @Override
+            public void onLoaderReset(Loader<List<TmdbMovieReview>> loader) {
+                swapReviewsData(null);
+
+            }
+        });
+    }
+
+    private void swapTrailersData(List<TmdbMovieTrailer> data) {
+        mTrailersAdapter.swapData(data);
+        int visibilityState = data == null || data.size() == 0 ?
+                View.INVISIBLE : View.VISIBLE;
+        findViewById(R.id.divider_trailers).setVisibility(visibilityState);
+        mTrailersTextView.setVisibility(visibilityState);
+        mTrailersRecyclerView.setVisibility(visibilityState);
+    }
+
+    private void swapReviewsData(List<TmdbMovieReview> data) {
+        mReviewsAdapter.swapData(data);
+        int visibilityState = data == null || data.size() == 0 ?
+                View.GONE : View.VISIBLE;
+        findViewById(R.id.divider_reviews).setVisibility(visibilityState);
+        mReviewsTextView.setVisibility(visibilityState);
+        mReviewsRecyclerView.setVisibility(visibilityState);
+
     }
 
     private void initializeLayoutFields() {
@@ -97,6 +137,8 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
         mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
         mUserRatingTextView = (TextView) findViewById(R.id.tv_user_rating);
         mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
+        mTrailersTextView = (TextView) findViewById(R.id.tv_trailers);
+        mReviewsTextView = (TextView) findViewById(R.id.tv_reviews);
     }
 
     private void initializeRecyclerViews() {

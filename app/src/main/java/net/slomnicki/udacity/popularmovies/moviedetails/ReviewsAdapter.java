@@ -4,12 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import net.slomnicki.udacity.popularmovies.R;
+import net.slomnicki.udacity.popularmovies.api.TmdbMovieReview;
+
+import java.util.List;
 
 class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
+
+    private List<TmdbMovieReview> mReviews;
 
     @Override
     public ReviewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -20,17 +24,22 @@ class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHold
 
     @Override
     public void onBindViewHolder(ReviewsViewHolder holder, int position) {
-        holder.bind("Review " + position);
+        holder.bind(mReviews.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        if (mReviews == null) return 0;
+        return mReviews.size();
+    }
+
+    public void swapData(List<TmdbMovieReview> reviewList) {
+        mReviews = reviewList;
+        notifyDataSetChanged();
     }
 
     class ReviewsViewHolder extends RecyclerView.ViewHolder {
-        private RatingBar mRatingBar;
         private TextView mDescriptionTextView;
 
         public ReviewsViewHolder(View itemView) {
@@ -38,8 +47,8 @@ class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHold
             mDescriptionTextView = (TextView) itemView.findViewById(R.id.tv_trailer_description);
         }
 
-        public void bind(String description) {
-            mDescriptionTextView.setText(description);
+        public void bind(TmdbMovieReview review) {
+            mDescriptionTextView.setText(review.getContent());
         }
     }
 }
