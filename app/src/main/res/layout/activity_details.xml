@@ -106,9 +106,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="8dp"
-                android:text="MARK AS FAVORITE"
+                android:onClick="onFavoriteButtonClick"
+                android:text="@string/favorite_mark"
                 app:layout_constraintLeft_toLeftOf="@+id/tv_user_rating"
                 app:layout_constraintTop_toBottomOf="@+id/tv_user_rating"/>
+
+            <ImageView
+                android:id="@+id/iv_favorite"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@string/favorite_mark"
+                android:onClick="onFavoriteButtonClick"
+                android:src="@drawable/ic_star_border_24dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"/>
 
             <TextView
                 android:id="@+id/tv_overview"
@@ -116,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_poster"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginTop="1dp"
                 android:padding="@dimen/details_text_padding_top"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_poster"
@@ -180,12 +194,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider_reviews"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
                 android:paddingLeft="16dp"
                 android:paddingTop="8dp"
                 android:text="@string/reviews"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintTop_toBottomOf="@+id/divider_reviews"
-                tools:layout_editor_absoluteX="8dp"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_reviews"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_reviews"

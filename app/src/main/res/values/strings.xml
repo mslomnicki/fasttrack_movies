@@ -6,5 +6,9 @@
     <string name="description_poster">Image poster</string>
     <string name="trailers">Trailers:</string>
     <string name="reviews">Reviews:</string>
+    <string name="rating">%1.1f/10</string>
     <string name="youtube_uri" translatable="false">http://youtube.com/watch?v=%s</string>
+    <string name="favorite_mark">MARK AS FAVORITE</string>
+    <string name="favorite_unmark">UNMARK AS FAVORITE</string>
+    <string name="content_authority" translatable="false">net.slomnicki.udacity.popularmovies</string>
 </resources>

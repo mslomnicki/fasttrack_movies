@@ -167,7 +167,8 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
                 .load(MovieDatabaseApi.getPosterPath(mMovie.getPosterPath()))
                 .into(mPosterImageView);
         mReleaseDateTextView.setText(mMovie.getReleaseDate().substring(0, 4));
-        mUserRatingTextView.setText(mMovie.getVoteAverage() + "/10");
+        mUserRatingTextView.setText(
+                getString(R.string.rating, mMovie.getVoteAverage()));
         mOverviewTextView.setText(mMovie.getOverview());
 
     }
@@ -180,5 +181,9 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
             Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
             startActivity(intent);
         }
+    }
+
+    public void onFavoriteButtonClick(View view) {
+        Toast.makeText(this, "Toast", Toast.LENGTH_SHORT).show();
     }
 }
