@@ -17,14 +17,14 @@ import java.util.List;
 
 class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolder> {
 
-    private List<TmdbMovie> mMovieList;
     private final OnPosterClickListener mClickListener;
+    private List<TmdbMovie> mMovieList;
 
     public PostersAdapter(OnPosterClickListener clickListener) {
         mClickListener = clickListener;
     }
 
-    public void setMovieList(List<TmdbMovie> movieList) {
+    public void swapMovieList(List<TmdbMovie> movieList) {
         mMovieList = movieList;
         notifyDataSetChanged();
     }
@@ -44,6 +44,10 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
     @Override
     public int getItemCount() {
         return mMovieList == null ? 0 : mMovieList.size();
+    }
+
+    public interface OnPosterClickListener {
+        void onPosterClick(TmdbMovie movie);
     }
 
     public class PosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -68,10 +72,6 @@ class PostersAdapter extends RecyclerView.Adapter<PostersAdapter.PosterViewHolde
         public void onClick(View v) {
             mClickListener.onPosterClick(mMovie);
         }
-    }
-
-    public interface OnPosterClickListener {
-        void onPosterClick(TmdbMovie movie);
     }
 }
 

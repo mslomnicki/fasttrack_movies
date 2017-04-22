@@ -13,10 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.slomnicki.udacity.popularmovies.R;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
 import net.slomnicki.udacity.popularmovies.moviedetails.DetailsActivity;
+import net.slomnicki.udacity.popularmovies.providers.FavoriteMoviesUtil;
 import net.slomnicki.udacity.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
@@ -91,16 +93,36 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
                 mSortOrder = R.id.action_sort_popular;
+                getSupportActionBar().setTitle(R.string.title_popular_movies);
+                fetchPosters();
                 break;
             case R.id.action_sort_rating:
                 mSortOrder = R.id.action_sort_rating;
+                getSupportActionBar().setTitle(R.string.title_rating_movies);
+                fetchPosters();
+                break;
+            case R.id.action_favorites:
+                mSortOrder = R.id.action_favorites;
+                getSupportActionBar().setTitle(R.string.title_favorite_movies);
+                showFavoritePosters();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
-        fetchPosters();
         return true;
+    }
+
+    private void showFavoritePosters() {
+        List<TmdbMovie> favoriteMovies = FavoriteMoviesUtil.getFavoriteMovies(this);
+        setRecyclerViewMovieList(favoriteMovies);
+        if (favoriteMovies.size() == 0) {
+            Toast.makeText(this, "No favorite movies. Showing most popular.", Toast.LENGTH_SHORT).show();
+            mSortOrder = R.id.action_sort_popular;
+            fetchPosters();
+            return;
+        }
+        showRecyclerView();
     }
 
     private void fetchPosters() {
@@ -113,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setRecyclerViewMovieList(List<TmdbMovie> movies) {
         mMovies = movies;
-        mPostersAdapter.setMovieList(mMovies);
+        mPostersAdapter.swapMovieList(mMovies);
     }
 
     private void showErrorMessage() {

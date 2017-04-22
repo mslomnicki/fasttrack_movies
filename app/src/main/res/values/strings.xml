@@ -13,4 +13,7 @@
     <string name="content_authority" translatable="false">net.slomnicki.udacity.popularmovies</string>
     <string name="share">Share</string>
     <string name="show_favorites">Show favorites</string>
+    <string name="title_popular_movies">Popular movies</string>
+    <string name="title_rating_movies">Movies with best rating</string>
+    <string name="title_favorite_movies">Favorite movies</string>
 </resources>

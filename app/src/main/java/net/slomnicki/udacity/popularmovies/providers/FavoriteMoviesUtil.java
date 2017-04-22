@@ -46,7 +46,7 @@ public class FavoriteMoviesUtil {
                 });
     }
 
-    public List<TmdbMovie> getFavoriteMovies(Context context) {
+    public static List<TmdbMovie> getFavoriteMovies(Context context) {
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = resolver.query(FavoriteMovieEntry.CONTENT_URI,
                 null,
