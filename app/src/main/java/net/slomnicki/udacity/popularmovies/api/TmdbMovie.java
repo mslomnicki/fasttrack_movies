@@ -62,9 +62,19 @@ public class TmdbMovie implements Parcelable {
     public TmdbMovie() {
     }
 
-    public TmdbMovie(int id, String title) {
+    public TmdbMovie(
+            int id,
+            String title,
+            String poster_path,
+            String overview,
+            String release_date,
+            double vote_average) {
         this.title = title;
         this.id = id;
+        this.posterPath = poster_path;
+        this.overview = overview;
+        this.releaseDate = release_date;
+        this.voteAverage = vote_average;
     }
 
     public String getOverview() {

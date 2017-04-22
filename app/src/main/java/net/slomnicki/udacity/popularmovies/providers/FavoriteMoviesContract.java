@@ -15,5 +15,9 @@ public class FavoriteMoviesContract {
         public static final String TABLE_NAME = "favorite";
         public static final String COLUMN_MOVIE_ID = "tmdbId";
         public static final String COLUMN_MOVIE_TITLE = "title";
+        public static final String COLUMN_MOVIE_POSTER_PATH = "poster_path";
+        public static final String COLUMN_MOVIE_OVERVIEW = "overview";
+        public static final String COLUMN_MOVIE_RELEASE_DATE = "release_date";
+        public static final String COLUMN_MOVIE_VOTE_AVERAGE = "vote_average";
     }
 }

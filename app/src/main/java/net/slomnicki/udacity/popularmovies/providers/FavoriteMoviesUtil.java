@@ -34,6 +34,10 @@ public class FavoriteMoviesUtil {
         ContentValues insertValues = new ContentValues();
         insertValues.put(FavoriteMovieEntry.COLUMN_MOVIE_ID, movie.getId());
         insertValues.put(FavoriteMovieEntry.COLUMN_MOVIE_TITLE, movie.getTitle());
+        insertValues.put(FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH, movie.getPosterPath());
+        insertValues.put(FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW, movie.getOverview());
+        insertValues.put(FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE, movie.getReleaseDate());
+        insertValues.put(FavoriteMovieEntry.COLUMN_MOVIE_VOTE_AVERAGE, movie.getVoteAverage());
         context.getContentResolver().insert(FavoriteMovieEntry.CONTENT_URI, insertValues);
     }
 
@@ -58,7 +62,11 @@ public class FavoriteMoviesUtil {
         do {
             movieList.add(new TmdbMovie(
                     cursor.getInt(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_ID)),
-                    cursor.getString(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_TITLE))
+                    cursor.getString(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_TITLE)),
+                    cursor.getString(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH)),
+                    cursor.getString(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW)),
+                    cursor.getString(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE)),
+                    cursor.getDouble(cursor.getColumnIndex(FavoriteMovieEntry.COLUMN_MOVIE_VOTE_AVERAGE))
             ));
         } while (cursor.moveToNext());
         return movieList;

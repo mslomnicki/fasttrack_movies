@@ -8,7 +8,7 @@ import net.slomnicki.udacity.popularmovies.providers.FavoriteMoviesContract.Favo
 
 public class FavoriteMoviesDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "movies.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public FavoriteMoviesDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -20,7 +20,11 @@ public class FavoriteMoviesDbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + FavoriteMovieEntry.TABLE_NAME + " (" +
                         FavoriteMovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         FavoriteMovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL, " +
-                        FavoriteMovieEntry.COLUMN_MOVIE_TITLE + " VARCHAR(100) NOT NULL" +
+                        FavoriteMovieEntry.COLUMN_MOVIE_TITLE + " VARCHAR(100) NOT NULL," +
+                        FavoriteMovieEntry.COLUMN_MOVIE_POSTER_PATH + " VARCHAR(30) NOT NULL," +
+                        FavoriteMovieEntry.COLUMN_MOVIE_OVERVIEW + " VARCHAR NOT NULL," +
+                        FavoriteMovieEntry.COLUMN_MOVIE_RELEASE_DATE + " VARCHAR(20) NOT NULL," +
+                        FavoriteMovieEntry.COLUMN_MOVIE_VOTE_AVERAGE + " REAL NOT NULL" +
                         ")";
         db.execSQL(SQL_CREATE_MOVIES_TABLE);
     }
