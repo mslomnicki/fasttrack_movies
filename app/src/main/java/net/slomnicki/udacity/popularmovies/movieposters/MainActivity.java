@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (mMovies == null) fetchPosters();
+        if (mMovies == null || mSortOrder == R.id.action_favorites) fetchPosters();
     }
 
     @Override
@@ -92,17 +92,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_popular:
-                mSortOrder = R.id.action_sort_popular;
-                fetchPosters();
-                break;
             case R.id.action_sort_rating:
-                mSortOrder = R.id.action_sort_rating;
-                fetchPosters();
-                break;
             case R.id.action_favorites:
-                mSortOrder = R.id.action_favorites;
-                getSupportActionBar().setTitle(R.string.title_favorite_movies);
-                showFavoritePosters();
+                mSortOrder = item.getItemId();
+                fetchPosters();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -113,21 +106,26 @@ public class MainActivity extends AppCompatActivity
 
     private void showFavoritePosters() {
         List<TmdbMovie> favoriteMovies = FavoriteMoviesUtil.getFavoriteMovies(this);
-        setRecyclerViewMovieList(favoriteMovies);
         if (favoriteMovies == null || favoriteMovies.size() == 0) {
             Toast.makeText(this, "No favorite movies. Showing most popular.", Toast.LENGTH_SHORT).show();
             mSortOrder = R.id.action_sort_popular;
             fetchPosters();
             return;
         }
+        setRecyclerViewMovieList(favoriteMovies);
+        getSupportActionBar().setTitle(R.string.title_favorite_movies);
         showRecyclerView();
     }
 
     private void fetchPosters() {
-        if (NetworkUtils.isOnline(this)) {
-            getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
+        if (mSortOrder == R.id.action_favorites) {
+            showFavoritePosters();
         } else {
-            showErrorMessage();
+            if (NetworkUtils.isOnline(this)) {
+                getSupportLoaderManager().restartLoader(MOVIES_LOADER_ID, null, this);
+            } else {
+                showErrorMessage();
+            }
         }
     }
 
