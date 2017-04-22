@@ -226,7 +226,7 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share && mFirstTrailer != null) {
             Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, MovieDatabaseApi.getTrailerUri(this, mFirstTrailer));
+            intent.putExtra(Intent.EXTRA_TEXT, MovieDatabaseApi.getTrailerUri(this, mFirstTrailer).toString());
             intent.setType("text/plain");
             startActivity(Intent.createChooser(intent, null));
             return true;
