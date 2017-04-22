@@ -11,4 +11,6 @@
     <string name="favorite_mark">MARK AS FAVORITE</string>
     <string name="favorite_unmark">UNMARK AS FAVORITE</string>
     <string name="content_authority" translatable="false">net.slomnicki.udacity.popularmovies</string>
+    <string name="share">Share</string>
+    <string name="show_favorites">Show favorites</string>
 </resources>

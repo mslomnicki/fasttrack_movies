@@ -11,8 +11,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import net.slomnicki.udacity.popularmovies.api.MovieDatabaseApi;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovie;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovieReview;
 import net.slomnicki.udacity.popularmovies.api.TmdbMovieTrailer;
+import net.slomnicki.udacity.popularmovies.providers.FavoriteMoviesUtil;
 
 import java.util.List;
 
@@ -31,7 +34,6 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
     private static final String INTENT_MOVIE = DetailsActivity.class.getName() + "_MOVIE";
     private static final int TRAILERS_LOADER_ID = 5545;
     private static final int REVIEWS_LOADER_ID = 4454;
-    private static final String TAG = DetailsActivity.class.getSimpleName();
     private TextView mTitleTextView;
     private ImageView mPosterImageView;
     private TextView mReleaseDateTextView;
@@ -44,6 +46,10 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
     private TmdbMovie mMovie;
     private TextView mReviewsTextView;
     private TextView mTrailersTextView;
+    private Button mFavoriteButton;
+    private ImageView mFavoriteImageView;
+
+    private TmdbMovieTrailer mFirstTrailer;
 
     public static void startActivity(Context context, TmdbMovie movie) {
         Intent intent = new Intent(context, DetailsActivity.class);
@@ -73,6 +79,57 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
         initializeLoaders();
     }
 
+    private void initializeLayoutFields() {
+        mTitleTextView = (TextView) findViewById(R.id.tv_title);
+        mPosterImageView = (ImageView) findViewById(R.id.iv_poster);
+        mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
+        mUserRatingTextView = (TextView) findViewById(R.id.tv_user_rating);
+        mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
+        mTrailersTextView = (TextView) findViewById(R.id.tv_trailers);
+        mReviewsTextView = (TextView) findViewById(R.id.tv_reviews);
+        mFavoriteButton = (Button) findViewById(R.id.bn_mark_favorite);
+        mFavoriteImageView = (ImageView) findViewById(R.id.iv_favorite);
+    }
+
+    private void initializeRecyclerViews() {
+        initializeTrailersRecyclerView();
+        initializeReviewsRecyclerView();
+    }
+
+    private void initializeTrailersRecyclerView() {
+        mTrailersAdapter = new TrailersAdapter(this);
+        mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
+        mTrailersRecyclerView.setHasFixedSize(true);
+        mTrailersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mTrailersRecyclerView.setAdapter(mTrailersAdapter);
+        DividerItemDecoration trailersDivier = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mTrailersRecyclerView.addItemDecoration(trailersDivier);
+    }
+
+    private void initializeReviewsRecyclerView() {
+        mReviewsAdapter = new ReviewsAdapter();
+        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_reviews);
+        mReviewsRecyclerView.setHasFixedSize(true);
+        mReviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mReviewsRecyclerView.setAdapter(mReviewsAdapter);
+        DividerItemDecoration reviewsDivider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mReviewsRecyclerView.addItemDecoration(reviewsDivider);
+    }
+
+    private void fillFieldsWithMovieData() {
+        getSupportActionBar().setTitle(mMovie.getTitle());
+        mTitleTextView.setText(mMovie.getTitle());
+        Picasso
+                .with(this)
+                .load(MovieDatabaseApi.getPosterPath(mMovie.getPosterPath()))
+                .into(mPosterImageView);
+        mReleaseDateTextView.setText(mMovie.getReleaseDate().substring(0, 4));
+        mUserRatingTextView.setText(
+                getString(R.string.rating, mMovie.getVoteAverage()));
+        mOverviewTextView.setText(mMovie.getOverview());
+        updateFavoriteState();
+    }
+
     private void initializeLoaders() {
         LoaderManager supportLoaderManager = getSupportLoaderManager();
         supportLoaderManager.initLoader(TRAILERS_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<TmdbMovieTrailer>>() {
@@ -83,7 +140,6 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
 
             @Override
             public void onLoadFinished(Loader<List<TmdbMovieTrailer>> loader, List<TmdbMovieTrailer> data) {
-                Log.d(TAG, "onLoadFinished: trailers " + data.size());
                 swapTrailersData(data);
             }
 
@@ -119,6 +175,7 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
         findViewById(R.id.divider_trailers).setVisibility(visibilityState);
         mTrailersTextView.setVisibility(visibilityState);
         mTrailersRecyclerView.setVisibility(visibilityState);
+        if (data != null && data.size() > 0) mFirstTrailer = data.get(0);
     }
 
     private void swapReviewsData(List<TmdbMovieReview> data) {
@@ -131,59 +188,49 @@ public class DetailsActivity extends AppCompatActivity implements TrailersAdapte
 
     }
 
-    private void initializeLayoutFields() {
-        mTitleTextView = (TextView) findViewById(R.id.tv_title);
-        mPosterImageView = (ImageView) findViewById(R.id.iv_poster);
-        mReleaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
-        mUserRatingTextView = (TextView) findViewById(R.id.tv_user_rating);
-        mOverviewTextView = (TextView) findViewById(R.id.tv_overview);
-        mTrailersTextView = (TextView) findViewById(R.id.tv_trailers);
-        mReviewsTextView = (TextView) findViewById(R.id.tv_reviews);
+    public void onFavoriteButtonClick(View view) {
+        if (FavoriteMoviesUtil.isFavoriteMovie(this, mMovie)) {
+            FavoriteMoviesUtil.unmarkAsFavorite(this, mMovie);
+        } else {
+            FavoriteMoviesUtil.markAsFavorite(this, mMovie);
+        }
+        updateFavoriteState();
     }
 
-    private void initializeRecyclerViews() {
-        mTrailersAdapter = new TrailersAdapter(this);
-        mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
-        mTrailersRecyclerView.setHasFixedSize(true);
-        mTrailersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mTrailersRecyclerView.setAdapter(mTrailersAdapter);
-        DividerItemDecoration trailersDivier = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        mTrailersRecyclerView.addItemDecoration(trailersDivier);
-
-        mReviewsAdapter = new ReviewsAdapter();
-        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_reviews);
-        mReviewsRecyclerView.setHasFixedSize(true);
-        mReviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mReviewsRecyclerView.setAdapter(mReviewsAdapter);
-        DividerItemDecoration reviewsDivider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        mReviewsRecyclerView.addItemDecoration(reviewsDivider);
-    }
-
-    private void fillFieldsWithMovieData() {
-        getSupportActionBar().setTitle(mMovie.getTitle());
-        mTitleTextView.setText(mMovie.getTitle());
-        Picasso
-                .with(this)
-                .load(MovieDatabaseApi.getPosterPath(mMovie.getPosterPath()))
-                .into(mPosterImageView);
-        mReleaseDateTextView.setText(mMovie.getReleaseDate().substring(0, 4));
-        mUserRatingTextView.setText(
-                getString(R.string.rating, mMovie.getVoteAverage()));
-        mOverviewTextView.setText(mMovie.getOverview());
-
+    private void updateFavoriteState() {
+        boolean favoriteMovie = FavoriteMoviesUtil.isFavoriteMovie(this, mMovie);
+        mFavoriteButton.setText(favoriteMovie ?
+                getString(R.string.favorite_unmark) :
+                getString(R.string.favorite_mark));
+        mFavoriteImageView.setImageResource(favoriteMovie ?
+                R.drawable.ic_star_24dp :
+                R.drawable.ic_star_border_24dp);
     }
 
     @Override
     public void onTrailerClick(TmdbMovieTrailer trailer) {
         Uri trailerUri = MovieDatabaseApi.getTrailerUri(this, trailer);
-        Log.d(TAG, "onTrailerClick: " + trailerUri);
         if (trailerUri != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW, trailerUri);
             startActivity(intent);
         }
     }
 
-    public void onFavoriteButtonClick(View view) {
-        Toast.makeText(this, "Toast", Toast.LENGTH_SHORT).show();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_details, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share && mFirstTrailer != null) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, MovieDatabaseApi.getTrailerUri(this, mFirstTrailer));
+            intent.setType("text/plain");
+            startActivity(Intent.createChooser(intent, null));
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }

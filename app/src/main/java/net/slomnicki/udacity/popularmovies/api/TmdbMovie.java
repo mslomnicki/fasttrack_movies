@@ -7,44 +7,65 @@ import com.google.gson.annotations.SerializedName;
 
 public class TmdbMovie implements Parcelable {
 
+    public static final Parcelable.Creator<TmdbMovie> CREATOR = new Creator<TmdbMovie>() {
+        @Override
+        public TmdbMovie createFromParcel(Parcel parcel) {
+            TmdbMovie retval = new TmdbMovie();
+            retval.video = parcel.readInt() == 1;
+            retval.adult = parcel.readInt() == 1;
+            retval.id = parcel.readInt();
+            retval.voteCount = parcel.readInt();
+            retval.popularity = parcel.readDouble();
+            retval.voteAverage = parcel.readDouble();
+            retval.overview = parcel.readString();
+            retval.originalLanguage = parcel.readString();
+            retval.originalTitle = parcel.readString();
+            retval.title = parcel.readString();
+            retval.posterPath = parcel.readString();
+            retval.backdropPath = parcel.readString();
+            retval.releaseDate = parcel.readString();
+            return retval;
+        }
+
+        @Override
+        public TmdbMovie[] newArray(int size) {
+            return new TmdbMovie[size];
+        }
+    };
     @SerializedName("overview")
     private String overview;
-
     @SerializedName("original_language")
     private String originalLanguage;
-
     @SerializedName("original_title")
     private String originalTitle;
-
     @SerializedName("video")
     private boolean video;
-
     @SerializedName("title")
     private String title;
-
     @SerializedName("poster_path")
     private String posterPath;
-
     @SerializedName("backdrop_path")
     private String backdropPath;
-
     @SerializedName("release_date")
     private String releaseDate;
-
     @SerializedName("popularity")
     private double popularity;
-
     @SerializedName("vote_average")
     private double voteAverage;
-
     @SerializedName("id")
     private int id;
-
     @SerializedName("adult")
     private boolean adult;
-
     @SerializedName("vote_count")
     private int voteCount;
+
+    public TmdbMovie() {
+    }
+
+    public TmdbMovie(int id, String title) {
+        this.title = title;
+        this.id = id;
+    }
 
     public String getOverview() {
         return overview;
@@ -119,30 +140,4 @@ public class TmdbMovie implements Parcelable {
         parcel.writeString(backdropPath);
         parcel.writeString(releaseDate);
     }
-
-    public static final Parcelable.Creator<TmdbMovie> CREATOR = new Creator<TmdbMovie>() {
-        @Override
-        public TmdbMovie createFromParcel(Parcel parcel) {
-            TmdbMovie retval = new TmdbMovie();
-            retval.video = parcel.readInt() == 1;
-            retval.adult = parcel.readInt() == 1;
-            retval.id = parcel.readInt();
-            retval.voteCount = parcel.readInt();
-            retval.popularity = parcel.readDouble();
-            retval.voteAverage = parcel.readDouble();
-            retval.overview = parcel.readString();
-            retval.originalLanguage = parcel.readString();
-            retval.originalTitle = parcel.readString();
-            retval.title = parcel.readString();
-            retval.posterPath = parcel.readString();
-            retval.backdropPath = parcel.readString();
-            retval.releaseDate = parcel.readString();
-            return retval;
-        }
-
-        @Override
-        public TmdbMovie[] newArray(int size) {
-            return new TmdbMovie[size];
-        }
-    };
 }
